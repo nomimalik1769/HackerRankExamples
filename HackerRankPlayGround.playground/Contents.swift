@@ -158,4 +158,62 @@ func caesarCipher(s: String, k: Int) -> String {
     return encryptedText
 }
 print(caesarCipher(s: "159357lcfd", k: 98))
-//print(caesarCipher(s: "Hello_World!", k: 4))
+
+func palindromeIndex(s: String) -> Int {
+    let reverse = s.reversed()
+    if s == String(reverse){
+        return -1
+    }else{
+        while true{
+            var tempStr = s
+            let temp = Array(s)
+            for (i,v) in temp.enumerated(){
+                if let index = tempStr.firstIndex(of: v){
+                    tempStr.remove(at: index)
+                    if tempStr == String(tempStr.reversed()){
+                        return i
+                    }else{
+                        tempStr = s
+                    }
+                }
+            }
+        }
+        
+    }
+
+}
+print(palindromeIndex(s: "aaa"))
+
+
+func gridChallenge(grid: [String]) -> String {
+    var result = "YES"
+    let temp = grid.map({$0.sorted(by: <)})
+    let totalCount = temp.first?.count ?? 0
+    for index in 0..<totalCount{
+        let tempItem = temp[0][index]
+        for i in 1..<temp.count{
+            let value = temp[i][index]
+            if tempItem > value{
+                result = "NO"
+                break
+            }
+        }
+        
+    }
+    return result
+}
+
+print(gridChallenge(grid: ["abc","ade","efg"]))
+//print(gridChallenge(grid: ["mpxz","abcd","wlmf"]))
+//print(gridChallenge(grid: ["abc","hjk","mpq","rtv"]))
+//print(gridChallenge(grid: ["ebacd","fghij","olmkn","trpqs","xywuv"]))
+func dateFormat(){
+    let date = "08-May-2024 at 5:51:13 PM"
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "dd-MM-yyyy 'at' h:mm:ss a"
+    dateFormatter.timeZone = TimeZone.gmt
+    if let dt = dateFormatter.date(from: date){
+        print(dt)
+    }
+}
+dateFormat()
