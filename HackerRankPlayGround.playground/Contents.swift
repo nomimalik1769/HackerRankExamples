@@ -134,16 +134,28 @@ print(towerBreaker(m: 2, n: 2))
 
 func caesarCipher(s: String, k: Int) -> String {
     var encryptedText = ""
-    for i in s{
-        if i.isLetter{
-            let temp = Int(i.asciiValue ?? 0)+k
-            let difit = Character(UnicodeScalar(temp)!)
-            encryptedText += String(difit)
-        }else{
-            encryptedText += String(i)
+    let alphabetCount = 26
+    
+    for char in s {
+        if char.isLetter {
+            let asciiValue: UInt8
+            if char.isUppercase {
+                asciiValue = Character("A").asciiValue!
+            } else {
+                asciiValue = Character("a").asciiValue!
+            }
+            
+            let shiftValue = ((Int(char.asciiValue!) - Int(asciiValue) + k) % alphabetCount)
+            
+            let newCharAsciiValue = asciiValue + UInt8(shiftValue)
+            let newChar = Character(UnicodeScalar(newCharAsciiValue))
+            encryptedText += String(newChar)
+        } else {
+            encryptedText += String(char)
         }
     }
     
     return encryptedText
 }
-print(caesarCipher(s: "middle-Out", k: 2))
+print(caesarCipher(s: "159357lcfd", k: 98))
+//print(caesarCipher(s: "Hello_World!", k: 4))
