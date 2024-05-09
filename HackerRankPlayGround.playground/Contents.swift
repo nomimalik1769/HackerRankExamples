@@ -217,3 +217,159 @@ func dateFormat(){
     }
 }
 dateFormat()
+
+func superDigit1(n: String, k: Int) -> Int {
+    // Write your code here
+    var answer = 0
+//    let sum = n.reduce(0) { $0 + Int(String($1))! }
+    var inputStr = ""
+    for i in 0..<k{
+        inputStr += n
+    }
+    answer = inputStr.map({Int(String($0))!}).reduce(0, +)
+    if answer > 10{
+        return superDigit(n: String(answer), k: 1)
+    }
+    return answer
+}
+func superDigit(n: String, k: Int) -> Int {
+    // Write your code here
+    var answer = 0
+    let sum = n.reduce(0) { $0 + Int(String($1))! }
+    answer = sum * k
+    if answer > 10{
+        return superDigit(n: String(answer), k: 1)
+    }
+    return answer
+}
+//Optimised Version
+func superDigitOptimised(n: String, k: Int) -> Int {
+    // Write your code here
+    let sum = n.reduce(0) { $0 + Int(String($1))! }
+    let superDigit = sum * k % 9
+    return superDigit == 0 ? 9 : superDigit
+}
+//print(superDigitOptimised(n: "3546630947312051453014172159647935984478824945973141333062252613718025688716704470547449723886626736", k: 100000))
+//print(superDigit1(n: "3546630947312051453014172159647935984478824945973141333062252613718025688716704470547449723886626736", k: 100000))
+
+func minimumBribes( q: [Int]) {
+    var queue = q
+    let n = queue.count
+    var bribes = 0
+    
+    for i in stride(from: n - 1, through: 0, by: -1) {
+        if queue[i] != (i + 1) {
+            if i - 1 >= 0 && queue[i - 1] == (i + 1) {
+                bribes += 1
+                queue.swapAt(i, i - 1)
+            } else if i - 2 >= 0 && queue[i - 2] == (i + 1) {
+                bribes += 2
+                queue[i - 2] = queue[i - 1]
+                queue[i - 1] = queue[i]
+                queue[i] = i + 1
+            } else {
+                print("Too chaotic")
+                return
+            }
+        }
+    }
+    
+    print(bribes)
+    
+}
+var item = [2, 1, 5, 3, 4]
+minimumBribes(q: item)
+
+func findStartPoint(petrolPumps: [[Int]]) -> Int {
+    var start = 0
+    var petrolRemaining = 0
+    var smallAmount = 0
+    
+    for i in 0..<petrolPumps.count {
+        let petrol = petrolPumps[i][0]
+        let distance = petrolPumps[i][1]
+        petrolRemaining += petrol - distance
+        
+        if petrolRemaining < 0 {
+            start = i + 1
+            smallAmount += petrolRemaining
+            petrolRemaining = 0
+        }
+    }
+    
+    return petrolRemaining + smallAmount >= 0 ? start : -1
+}
+
+// Example usage:
+let petrolPumps = [[4, 6], [6, 5], [7, 3], [4, 5]]
+print(findStartPoint(petrolPumps: petrolPumps))
+
+func dynamicArray(n: Int, queries: [String]) -> [Int] {
+    var arr = Array(repeating: [Int](), count: n)
+    var lastAnswer = 0
+    var result = [Int]()
+    
+    for query in queries {
+        let parts = query.split(separator: " ").map { Int($0)! }
+        let type = parts[0]
+        let x = parts[1]
+        let y = parts[2]
+        
+        let idx = (x ^ lastAnswer) % n
+        
+        if type == 1 {
+            arr[idx].append(y)
+        } else if type == 2 {
+            let element = y % arr[idx].count
+            lastAnswer = arr[idx][element]
+            result.append(lastAnswer)
+        }
+    }
+    
+    return result
+}
+
+// Example usage:
+let n = 2
+let queries = [
+    "1 0 5",
+    "1 1 7",
+    "1 0 3",
+    "2 1 0",
+    "2 1 1"
+]
+print(dynamicArray(n: n, queries: queries)) // Output: [7, 3]
+
+
+func arrayManipulation(n: Int, queries: [[Int]]) -> Int {
+    var arr = Array(repeating: 0, count: n + 1)
+    
+    for query in queries {
+        let a = query[0]
+        let b = query[1]
+        let k = query[2]
+        
+        arr[a] += k
+        if b+1 <= n {
+            arr[b+1] -= k
+        }
+    }
+    
+    var maxVal = 0
+    var sum = 0
+    for val in arr {
+        sum += val
+        maxVal = max(maxVal, sum)
+    }
+    
+    return maxVal
+}
+
+// Example usage:
+let n2 = 10
+let queries2 = [
+    [1, 5, 3],
+    [4, 8, 7],
+    [6, 9, 1]
+]
+print(arrayManipulation(n: n2, queries: queries2))
