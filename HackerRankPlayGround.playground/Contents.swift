@@ -416,8 +416,19 @@ func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
     }
     return answers
 }
+func twoSum2(_ nums: [Int], _ target: Int) -> [Int] {
+    var dict = [Int:Int]()
+    for i in nums.indices{
+        var current = target - nums[i]
+        if let dictIndex = dict[current]{
+            return  [dictIndex,i]
+        }
+        dict[nums[i]] = i
+    }
+    return []
+}
 //print(twoSum([2,7,11,15], 9))
-print(twoSum([2,5,5,11], 10))
+print(twoSum2([2,5,5,11], 10))
 //print(twoSum([3,2,4], 6))
 
 func getSumOfNumber(_ s: [Int], _ d: Int,m:Int) -> Int{
@@ -441,6 +452,7 @@ func getSumOfNumber(_ s: [Int], _ d: Int,m:Int) -> Int{
 }
 
 //print(getSumOfNumber([2,2,1,3,2], 4, m: 2))
+//print(getSumOfNumber([2,2,1,3,2], 6, m: 3))
 //print(getSumOfNumber([1,2,1,3,2], 3, n: 2))
 //print(getSumOfNumber([2,2,1,3,2], 2, m: 1))
 //print(getSumOfNumber([1,1,1,1,1], 3, n: 2))
