@@ -373,3 +373,77 @@ let queries2 = [
     [6, 9, 1]
 ]
 print(arrayManipulation(n: n2, queries: queries2))
+
+
+func noPrefix(words: [String]) -> Void {
+    // Write your code here
+    var isGoodSet = false
+let words = words.sorted(by: >)
+outerLoop:for (i) in 0..<words.count{
+        var currentItem  = words[i]
+        for i in words{
+            if i.contains(currentItem){
+                let temp = currentItem.replacingOccurrences(of: i, with: "")
+                if temp.count > 0{
+                    isGoodSet = false
+                    print("BAD SET")
+                    print(i)
+                    break outerLoop
+                }
+            }else{
+                isGoodSet = true
+            }
+        }
+        
+    }
+    if isGoodSet{
+        print("GOOD SET")
+    }
+}
+let test1 = ["aab","aac","aacghgh","aabghgh"].sorted(by: >)
+let test2 = ["aab","defgab","abcde","aabcde","cedaaa","bbbbbbbbbb","jabjjjad"].sorted(by: >)
+noPrefix(words: test2)
+
+func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+    var answers = [Int]()
+    for i in 0..<nums.count{
+        var current = nums[i]
+        for j in i+1..<nums.count{
+            if (current + nums[j]) == target{
+                answers = [i,j]
+            }
+        }
+    }
+    return answers
+}
+//print(twoSum([2,7,11,15], 9))
+print(twoSum([2,5,5,11], 10))
+//print(twoSum([3,2,4], 6))
+
+func getSumOfNumber(_ s: [Int], _ d: Int,m:Int) -> Int{
+    var count = 0
+    if m == 1{
+        return s.filter({$0 == d}).count
+    }
+    for i in 0..<s.count{
+        var current = s[i]
+        for j in i..<s.count{
+            if (i+m) <= s.count{
+                if (s[i..<(i+m)].reduce(0, +)) == d{
+                    count += 1
+                    break
+                    
+                }
+            }
+        }
+    }
+    return count
+}
+
+//print(getSumOfNumber([2,2,1,3,2], 4, m: 2))
+//print(getSumOfNumber([1,2,1,3,2], 3, n: 2))
+//print(getSumOfNumber([2,2,1,3,2], 2, m: 1))
+//print(getSumOfNumber([1,1,1,1,1], 3, n: 2))
+//print(getSumOfNumber([1,4], 4, m: 1))
+let sumTemp = [2,3,4,4,2,1,2,5,3,4,4,3,4,1,3,5,4,5,3,1,1,5,4,3,5,3,5,3,4,4,2,4,5,2,3,2,5,3,4, 2, 4, 3, 3, 4, 3, 5, 2, 5, 1, 3, 1, 4, 2, 2, 4, 3, 3, 3, 3, 4, 1, 1, 4, 3, 1, 5, 2, 5, 1, 3, 5, 4, 3, 3, 1, 5, 3, 3, 3, 4, 5, 2]
+//print(getSumOfNumber(sumTemp, 26, m: 8))
